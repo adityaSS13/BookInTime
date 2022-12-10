@@ -86,9 +86,11 @@ router.post('/bookings', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
 
-router.get('/bookings/getCustomerInfo', (req, res,next) => {
+
+router.get('/bookings/customerInfo', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
 });
+
 
 router.get('/gettheaterinfo', (req, res,next) => {
     dashboardServerProxy(req,res,next);  
@@ -98,9 +100,6 @@ router.get('/bookings', (req, res,next) => {
     dashboardServerProxy(req,res,next);
 });
 
-router.get('/bookings/customerInfo', (req, res,next) => {
-    dashboardServerProxy(req,res,next);
-});
 
 app.use("/", router);
 

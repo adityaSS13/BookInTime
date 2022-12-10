@@ -63,7 +63,7 @@ const CustomerServiceSearchPageContent = () => {
     const [searchCriteria, setCriteria] = useState("email");
     const [userData, setUserData] = useState([[]])
     const request = useContext(Request);
-    const path = "/bookings/customerInfo"
+    let path = "/bookings/customerInfo"
     // const columns = ["Date", "Theater", "Movie", "Price", "Seats"]
     const columns = ["User_ID", "Email", "Theater_ID", "Theater", "Movie_ID", "Movie_Name", "Price", "Seats"]
     //const columns = ["User_ID", "Email", "fname", "lname", "Theater_ID", "Theater", "Movie_ID", "Movie_Name", "Price", "Seats", "transactionID", "Date", "Time"]
@@ -73,29 +73,15 @@ const CustomerServiceSearchPageContent = () => {
     const handleSearch = async () => {
         let value = entry
         let criteria = searchCriteria
-        console.log(value)
-        console.log(criteria)
-        let body = {
-            email: "",
-            userID: ""
-        }
 
         if (value !== "" && criteria !== "") {
-            if(criteria == "email"){
-                body = {
-                    email: value,
-                    userId: ""
-                }
+            if(criteria === "email"){
+                path = path + "?email=" + value;
             } else {
-                body = {
-                    email: "",
-                    userId: value
-                }
+                path = path + "?userid=" + value;
             }
 
-            console.log(body)
-
-            let getBookings = request.getRequest(path, body);
+            let getBookings = request.getRequest(path, "");
             console.log(getBookings)
             getBookings.then(response => {
                 if(response.ok){
