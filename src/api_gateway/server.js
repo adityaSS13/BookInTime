@@ -102,9 +102,6 @@ router.get('/bookings', (req, res,next) => {
     dashboardServerProxy(req,res,next);
 });
 
-router.get('/bookings/customerInfo', (req, res,next) => {
-    dashboardServerProxy(req,res,next);
-});
 
 app.use("/", router);
 
