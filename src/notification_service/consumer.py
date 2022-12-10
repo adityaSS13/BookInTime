@@ -29,17 +29,19 @@ class ThreadedConsumer(threading.Thread):
         self.channel.basic_consume(queue=self.queue_name, on_message_callback=self.callback)
         threading.Thread(target=self.channel.basic_consume(self.queue_name, on_message_callback=self.callback))
 
-    def callback(self,ch, method, properties, body,execute):
+    def callback(self,ch, method, properties, body):
         print(" [x] Received "+self.queue_name)
         ch.basic_ack(delivery_tag=method.delivery_tag)
         body=json.loads(body); 
-
+        print("body ", body)
         details={}
 
         for p in self.params:
+            if p not in body:
+                continue
             details[p]=body[p]
 
-        execute(details)
+        sendmail(details)
 
         print(" [x] Done ",self.queue_name)
 
@@ -49,7 +51,7 @@ class ThreadedConsumer(threading.Thread):
         try:
             self.channel.start_consuming()
         except Exception as e:
-            print(e)
+            print("exception ", e)
 
 def main():
     for q in constants["QUEUE_NAME"]:
