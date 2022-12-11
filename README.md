@@ -6,7 +6,7 @@
 ![sysarch](assets/logo.svg?raw=true "logo")
 
 
-### :computer: [Production URL](http://149.165.169.69/)
+### :computer: [Production URL](http://149.165.169.69.nip.io/)
 
 
 **Repository Structure**
