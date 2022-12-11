@@ -3,8 +3,7 @@ const Movie = require("../Models/Movies");
 
 const getTheatersinfo = (async (req,res)=>{
     try{
-        const {userid} = req.body;
-        const theaterobject = await Theater.findById(userid);
+        const theaterobject = await Theater.findById(req.userid);
         res.status(200).send({theaterobject});
 
     }catch(err){
