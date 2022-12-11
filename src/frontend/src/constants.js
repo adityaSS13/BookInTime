@@ -20,7 +20,8 @@ let requestEndPoints = {
     THEATERZIP:"/theaters/zip/",
     BOOKING:"/bookings",
     CHANGE_PASSWORD:"/updateprofile/resetpasswd",
-    FORGOT_PASSWORD:"/updateprofile/genpasswd"
+    FORGOT_PASSWORD:"/updateprofile/genpasswd",
+    ADHOC_MOVIES:"/gettheaterinfo"
 }
 
 module.exports = {
@@ -30,5 +31,7 @@ module.exports = {
     FE_PORT: process.env.FEPORT || 3000,
     CLIENT_ID: process.env.CLIENT_ID || "624148654388-pep2rsbqfuscb5mibsh16l3fv1hhlp7e.apps.googleusercontent.com",
     REQUEST: requestEndPoints,
-    AUTH_TOKEN_KEY: "the_bit_token"
+    AUTH_TOKEN_KEY: "the_bit_token",
+    AUTH_TOKEN_KEY_ADHOC: "the_bit_token_adhoc",
+    AUTH_TOKEN_KEY_ADMIN: "the_bit_token_admin"
 }
