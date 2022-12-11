@@ -1,14 +1,15 @@
 import { Fragment } from 'react';
 import { Outlet } from 'react-router-dom';
-import AdminMainNavigation from './AdminMainNavigation';
 
-const AdminLayout = (props) => {
+import AdhocMainNavigation from './AdhocMainNavigation';
+
+const AdhocLayout = (props) => {
   return (
     <Fragment>
-      <AdminMainNavigation />
+      <AdhocMainNavigation />
         <Outlet>{props.children}</Outlet>
     </Fragment>
   );
 };
 
-export default AdminLayout;
+export default AdhocLayout;

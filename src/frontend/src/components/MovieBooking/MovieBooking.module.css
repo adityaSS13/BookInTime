@@ -99,3 +99,13 @@
 .movTitle:hover {
   background-position-x: 90%;
 }
+
+.bookingHeader {
+  font-size: 55px;
+  color: rgb(202, 202, 237);
+  padding-bottom: 12px;
+  padding-top: 12px;
+  border-radius: 35px;
+  text-align: center;
+  font-family: Comic Sans MS, Comic Sans, cursive;
+}

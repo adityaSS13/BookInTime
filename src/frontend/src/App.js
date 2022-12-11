@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import AdminLayout from "./components/Layout/AdminLayout";
+import AdhocLayout from "./components/Layout/AdhocLayout";
 // import UserProfile from './components/Profile/UserProfile';
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
@@ -16,6 +17,7 @@ import AdminPage from "./pages/AdminPage";
 import InPersonTheaterPage from "./pages/InPersonTheaterPage";
 import Success from "./pages/SuccessPage";
 import Failure from "./pages/FailurePage";
+import AdhocSuccess from "./pages/AdhocSuccessPage"
 import CustomerServiceEmployeePage from "./pages/CustomerServiceEmployeePage";
 import CustomerServicePage from "./pages/CustomerServicePage";
 import CustomerServiceSearchPage from "./pages/CustomerServiceSearchPage";
@@ -53,9 +55,13 @@ function App(props) {
         path="/customerservicesearch"
         element={<CustomerServiceSearchPage />}>
       </Route>
+      <Route element={<AdhocLayout />}>
+        <Route path="/adhoc" element={<InPersonTheaterPage />}></Route>
+        <Route path="/adhocmovie" element={<TheatreMovieBooking />}></Route>
+        <Route path="/adhocbookingsuccess" element={<AdhocSuccess />}></Route>
+      </Route>
       <Route element={<AdminLayout />}>
         <Route path="/admin" element={<AdminPage />}></Route>
-        <Route path="/adhoc" element={<InPersonTheaterPage />}></Route>
       </Route>
     </Routes>
   );

@@ -11,7 +11,7 @@ import { useContext } from 'react';
 // import constants from '../../constants';
 // import {useLocation} from 'react-router-dom';
 
-const AdminMainNavigation = () => {
+const AdhocMainNavigation = () => {
   const ctxt = useContext(AuthContext)
   
   const handleLogout = () => {
@@ -26,11 +26,15 @@ const AdminMainNavigation = () => {
       <div style={{display:"flex", alignItems:"center"}}>
         <nav className={classes.navList}>
           <ul>
-            
+            {ctxt.isLoggedIn && (
+              <li>
+                <Link to="/movie">Movie</Link>
+              </li>
+            )}
             {!ctxt.isLoggedIn && 
               (
                 <li>
-                  <Link to='/admin'>Login</Link>
+                  <Link to='/adhoc'>Login</Link>
                 </li>
               )
             }
@@ -48,4 +52,4 @@ const AdminMainNavigation = () => {
   );
 };
 
-export default AdminMainNavigation;
+export default AdhocMainNavigation;

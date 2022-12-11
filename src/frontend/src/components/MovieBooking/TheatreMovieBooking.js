@@ -9,9 +9,11 @@ import Request from '../../contexts/Request';
 import constants from '../../constants';
 import classes from './MovieBooking.module.css';
 import AuthContext from '../../contexts/AuthContext';
+import { useNavigate } from "react-router-dom";
 
 const TheatreMovieBooking = () => {
     const location = useLocation()
+    const navigate = useNavigate()
     const theaterData = location.state.theater
     const theaterName = theaterData.name
     const theaterId = theaterData._id
@@ -19,6 +21,7 @@ const TheatreMovieBooking = () => {
         lat: theaterData.lat,
         lng: theaterData.long
     }
+    const isAdhoc = window.location.pathname.startsWith("/adhoc") ? true : false
     const address = theaterData.address
     const movieData = location.state.movie
     const movie = movieData.title
@@ -97,6 +100,13 @@ const TheatreMovieBooking = () => {
         }
         setValidated(true);
     };
+
+    const confirmPayment = (event) => {
+        event.preventDefault()
+        let dets = authContext.getBookingDetails()
+        dets.transactionId = Date.now()
+        navigate("/adhocbookingsuccess", { state: { bookingDetails: dets} });
+    }
 
     const makePayment = (event) => {
         const form = document.getElementById("userDets");
@@ -208,15 +218,17 @@ const TheatreMovieBooking = () => {
         }
     }
   return (
-    <section>
-      <h1 style={{paddingLeft:"1%"}}>Movie Booking</h1>
+    <section className={classes.bookbg} style={{ color: "wheat" }}>
+      <h1 className={classes.bookingHeader}>Movie Booking</h1>
       <Row>
       <Col xs={12} md={8}>
       <div>
-      <Card>
-        <Card.Img variant="top" src={poster}  width="998px" height="400px"/>
+      <Card style={{ background: "transparent" }}>
+        <img alt="loading" className={classes.movImg} src={poster} />
         <Card.Body>
-          <Card.Title>{movie}</Card.Title>
+          <Card.Title
+          style={{ fontSize: "35px", color: "black" }}
+          className={classes.movTitle}>{movie}</Card.Title>
           <Card.Text>{descr}</Card.Text>
             <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>
@@ -268,7 +280,7 @@ const TheatreMovieBooking = () => {
             </Form.Group>
             <div className={classes.theater}>
                 <div className={classes.screen}>Screen This Side</div>
-                <table className={classes.table} id="seatLayout">
+                <table style={{ color: "black" }} className={classes.table} id="seatLayout">
                     <thead>
                         <tr>
                             <td></td>
@@ -282,7 +294,8 @@ const TheatreMovieBooking = () => {
                             <tr>
                                 <td>{row}</td>
                                 {seatNums && seatNums[row] && seatNums[row].map((seat) => (
-                                    <td className={`${seat.isBooked ? classes.booked: ""}`} onClick={selectSeat} value={seat.seatNum}>{seat.seatNum}</td>
+                                    <td className={`${seat.isBooked ? classes.booked : classes.avail}`}
+                                     onClick={selectSeat} value={seat.seatNum}>{seat.seatNum}</td>
                                 ))}
                             </tr>
                         ))}
@@ -297,28 +310,37 @@ const TheatreMovieBooking = () => {
       </div>
       </Col>
       <Col xs={6} md={4}>
-      <Card>
+      <Card style={{ background: "transparent" }}>
         <Card.Body>
-            {!isLoggedin && 
+            {!isLoggedin && !isAdhoc && 
             <>
             <Card.Title>User Details</Card.Title>
             <Form noValidate validated={validated} onSubmit={handleSubmit} id="userDets">
                 <Form.Group as={Row} className="mb-3">
                     <Form.Label required>Email</Form.Label>
                     <Col sm={10}>
-                    <Form.Control type="inputtext" ref={userMail} required disabled={!showSummary}/>
+                    <Form.Control type="email" ref={userMail} required disabled={!showSummary}/>
+                    <Form.Control.Feedback type="invalid">
+                        Please enter a valid email.
+                    </Form.Control.Feedback>
                     </Col>
                 </Form.Group>
                 <Form.Group as={Row} className="mb-3">
                     <Form.Label>First Name</Form.Label>
                     <Col sm={10}>
                     <Form.Control type="inputtext" ref={userFname} required disabled={!showSummary}/>
+                    <Form.Control.Feedback type="invalid">
+                        Please enter a first name.
+                    </Form.Control.Feedback>
                     </Col>
                 </Form.Group>
                 <Form.Group as={Row} className="mb-3">
                     <Form.Label>Last Name</Form.Label>
                     <Col sm={10}>
                     <Form.Control type="inputtext" ref={userLname} required disabled={!showSummary}/>
+                    <Form.Control.Feedback type="invalid">
+                        Please enter a last name.
+                    </Form.Control.Feedback>
                     </Col>
                 </Form.Group>
                 <Button type="submit" id="userDetsSubmit" style={{visibility:"hidden"}}></Button>
@@ -379,7 +401,8 @@ const TheatreMovieBooking = () => {
           </Form.Group>
         </Card.Body>
         <Card.Footer style={{textAlign:"center"}}>
-            <Button disabled={!showSummary} onClick={makePayment}>Proceed to Payment</Button>
+            {!isAdhoc && <Button disabled={!showSummary} onClick={makePayment}>Proceed to Payment</Button>}
+            {isAdhoc && <Button disabled={!showSummary} onClick={confirmPayment}>Confirm Payment</Button>}
         </Card.Footer>
       </Card>
       </Col>

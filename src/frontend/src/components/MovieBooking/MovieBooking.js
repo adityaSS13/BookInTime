@@ -304,17 +304,7 @@ const MovieBooking = (props) => {
   };
   return (
     <section className={classes.bookbg} style={{ color: "wheat" }}>
-      <h1
-        style={{
-          fontSize: "55px",
-          color: "rgb(202, 202, 237)",
-          paddingBottom: "12px",
-          paddingTop: "12px",
-          borderRadius: "35px",
-          textAlign: "center",
-          fontFamily: "Comic Sans MS, Comic Sans, cursive",
-        }}
-      >
+      <h1 className={classes.bookingHeader}>
         Movie Booking
       </h1>
       <Row>
