@@ -1,29 +1,11 @@
-
-//import Card from 'react-bootstrap/Card';
-// import CardGroup from 'react-bootstrap/CardGroup';
-//import Col from 'react-bootstrap/Col';
-//import Row from 'react-bootstrap/Row';
-// import context from 'react-bootstrap/esm/AccordionContext';
-// import AuthContext from '../../contexts/AuthContext';
-// import { useState } from 'react';
-// import CONSTANTS from '../../constants';
-
-// import React from 'react';
-// import { Button } from 'react-bootstrap';
-// import { useNavigate } from 'react-router-dom';
-// import Request from '../../contexts/Request';
-// import constants from '../../constants';
-// import AuthContext from '../../contexts/AuthContext';
-// import classes from './StartingPageContent.module.css';
 import {Component, Fragment, useContext, useState} from 'react';
 import classes from './CustomerServiceSearchPageContent.module.css';
 import { BsSearch } from 'react-icons/bs';
 import Request from '../../contexts/Request';
 
-
 class TableRow extends Component {
     render() {
-        var row = this.props.row;
+        const row = this.props.row;
         return (
             <tr>
                 {row.map((val) => (
@@ -36,38 +18,48 @@ class TableRow extends Component {
 
 class Table extends Component {
     render() {
-        var columns = this.props.columns;
-        var body = this.props.body;
-
-        return (
-            <table style={{width: 500}}>
-                <thead>
-                    <tr>
-                        {columns.map((column) => (
-                        <th>{column}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {body.map((row) => (
-                        <TableRow row={row}/>
-                    ))}
-                </tbody>
-            </table>)
+        const columns = this.props.columns;
+        const body = this.props.body;
+        body.splice(0, 1)
+        console.log(body)
+        
+        if(body){
+            return (
+                <table style={{width: 500}}>
+                    <thead>
+                        <tr>
+                            {columns.map((column) => (
+                            <th key={column}>{column}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {body.map((temp) => {
+                            //console.log(temp);
+                            return (
+                                <TableRow row={temp}/>
+                            )
+                        })}
+                    </tbody>
+                </table>)
+        } else {
+            return (
+                <Fragment/>
+            )
+        }
     }
 }
+
 
 
 const CustomerServiceSearchPageContent = () => {
     const [entry, setEntry] = useState("");
     const [searchCriteria, setCriteria] = useState("email");
-    const [userData, setUserData] = useState([[]])
+    const [userData, setUserData] = useState(undefined)
     const request = useContext(Request);
     let path = "/bookings/customerInfo"
-    // const columns = ["Date", "Theater", "Movie", "Price", "Seats"]
-    const columns = ["User_ID", "Email", "Theater_ID", "Theater", "Movie_ID", "Movie_Name", "Price", "Seats"]
-    //const columns = ["User_ID", "Email", "fname", "lname", "Theater_ID", "Theater", "Movie_ID", "Movie_Name", "Price", "Seats", "transactionID", "Date", "Time"]
-    const body = [["12/1/2", "AMC12", "Film Red", "20", "3"]]
+    const columns = ["Booking_ID", "Email", "Theater_ID", "Theater", "Movie_ID", "Movie", "Price", "Seats"]
+    const body = [['1234', 'bmcshane', '4321', 'AMC12', '3000', 'Film Red', '12', '2']]
 
 
     const handleSearch = async () => {
@@ -82,14 +74,17 @@ const CustomerServiceSearchPageContent = () => {
             }
 
             let getBookings = request.getRequest(path, "");
-            console.log(getBookings)
             getBookings.then(response => {
                 if(response.ok){
                     response.json()
                     .then((data) => {
-                        console.log(data)
-                        setUserData(data)
                         // need some function for displaying data
+                        let bookingsList = [[]]
+                        data['bookingsList'].map((temp) => {
+                            let reorganized_row = [temp['_id'], temp['email'], temp['theater_id'], temp['theater_name'], temp['movie_id'], temp['movie_name'], temp['price'].toString(), temp['seats'].toString()]
+                            bookingsList.push(reorganized_row)
+                        })
+                        setUserData(bookingsList)
                     })
                     .catch(error => {
                         console.log(error)
@@ -131,9 +126,8 @@ const CustomerServiceSearchPageContent = () => {
                 </button>
             </div>
             <div className={classes.tableContainer}>
-                <Table columns={columns} body={body}/>
+                {userData ? <Table columns={columns} body={userData}/> : <></>}
             </div>
-            <div></div>
         </Fragment>
     </section>
     );

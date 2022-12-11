@@ -1,21 +1,7 @@
-.starting {
-  margin: 3rem auto;
-  text-align: center;
-}
-
-.starting h1 {
-  font-size: 5rem;
-}
-
 .main {
-  margin: auto;
+  margin: flex;
   width: 50%;
   padding: 40px;
-}
-
-.search {
-  width: fill;
-  height: 35px;
 }
 
 .searchContainer {
@@ -27,10 +13,9 @@
 
 .tableContainer {
   margin-top: 50px;
+  display: flex;
 }
 
-/*
 table, th, td {
   border: 1px solid;
 }
-*/

@@ -23,9 +23,6 @@ export const RequestProvider = (props)=>{
         if(method === "POST"){
             params["body"] = reqBody
         }
-        console.log(params)
-        console.log(url)
-        console.log(domainName_gw1+url)
         return fetch(domainName_gw1+url,params)
     };
     // const fetchRequesttemp =  (method,url,reqBody,reqHeader) => {
@@ -107,7 +104,6 @@ export const RequestProvider = (props)=>{
         let header = {
             token : authContext.token
         }
-        console.log(url)
         return fetchRequest("GET",url,"",header)
     }
 
