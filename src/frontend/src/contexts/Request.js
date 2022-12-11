@@ -78,6 +78,13 @@ export const RequestProvider = (props)=>{
         return fetchRequest("GET","/profile","",header)
     }
 
+    const testTokenAdhoc = (url,data) => {
+        let header = {
+            token : data.token
+        }
+        return fetchRequest("GET",constants.REQUEST.ADHOC_MOVIES,"",header)
+    }
+
     const getMovies = (url) => {
         let header = {
             token : authContext.token
@@ -168,6 +175,7 @@ export const RequestProvider = (props)=>{
     const handleGet = (url,data) => {
         switch(url){
             case "/profile":
+            case constants.REQUEST.ADHOC_MOVIES:
                 return getProfile(url)
             case "/movies/city/":
             case "/theaters/city/":
@@ -180,6 +188,8 @@ export const RequestProvider = (props)=>{
                 return getTheaterMovies(url,data)
             case "/test":
                 return testToken(url,data)
+            case "/testAdhoc":
+                return testTokenAdhoc(url,data)
             case constants.REQUEST.MOVIEZIP:
             case constants.REQUEST.THEATERZIP:
                 return getResultsByZipcode(url,data)

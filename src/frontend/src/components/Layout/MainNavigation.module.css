@@ -105,13 +105,15 @@ input {
 
 .title {
   text-decoration: none;
-  color: white;
   font-weight: bold;
-  padding-left: 5%;
-  font-family: 'Lato', sans-serif;
-  font-size: 2rem;
-  color: white;
   margin: 0;
+  background: linear-gradient(90deg, #800000, #ff0000, #ff0000, #800000);
+  font-family: Lobster, cursive;
+  font-size: 35px;
+  color: white;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 50px;
 }
 
 .navList {
