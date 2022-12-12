@@ -23,7 +23,6 @@ export const RequestProvider = (props)=>{
         if(method === "POST"){
             params["body"] = reqBody
         }
-        console.log(params)
         return fetch(domainName_gw1+url,params)
     };
     // const fetchRequesttemp =  (method,url,reqBody,reqHeader) => {
@@ -108,13 +107,13 @@ export const RequestProvider = (props)=>{
         return fetchRequest("GET",url,"",header)
     }
 
-    const getCustomerInfo = (url, data) => {
+    const getCustomerInfo = (url) => {
         let header = {
             token : authContext.token
         }
-        console.log(header)
-        return fetchRequest("GET",url,data,header)
+        return fetchRequest("GET",url,"",header)
     }
+
 
     const getTheaterMovies = (url,data) => {
         let header = {
@@ -193,11 +192,14 @@ export const RequestProvider = (props)=>{
             case constants.REQUEST.MOVIEZIP:
             case constants.REQUEST.THEATERZIP:
                 return getResultsByZipcode(url,data)
-            case '/bookings/customerInfo':
-                return getCustomerInfo(url, data)
             default:
                 break;
         }
+
+        // needs to be separate from case because we don't know the exact email/userid being entered
+        if (url.startsWith("/bookings/customerInfo?email=") || url.startsWith("/bookings/customerInfo?userid=")){
+            return getCustomerInfo(url)
+        } 
     };
 
     const handlePost = (url,data) => {
