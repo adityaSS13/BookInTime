@@ -33,6 +33,17 @@ const TheatreMovieBooking = () => {
     for(let i=0; i< movieData.timings.length;i++){
         options.push(movieData.timings[i].time)
     }
+    let today = new Date();
+    let tillDate = new Date();
+    tillDate.setDate(today.getDate() + 15)
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0');
+    let yyyy = today.getFullYear();
+    const minDate = yyyy + '-' + mm + '-' + dd;
+    let tilldd = String(tillDate.getDate()).padStart(2, '0');
+    let tillmm = String(tillDate.getMonth() + 1).padStart(2, '0');
+    let tillyyyy = tillDate.getFullYear();
+    const maxDate = tillyyyy + '-' + tillmm + '-' + tilldd
     const numSeats = [1,2,3,4,5,6]
     const show = useRef(options[0])
     const seats = useRef(1)
@@ -251,7 +262,7 @@ const TheatreMovieBooking = () => {
                 Select the date
                 </Form.Label>
                 <Col sm={10}>
-                <input type="date" ref={movieDate}></input>
+                <input type="date" ref={movieDate} min={minDate} max={maxDate}></input>
                 </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-3">
@@ -273,7 +284,7 @@ const TheatreMovieBooking = () => {
                 <Col sm={10}>
                     <Form.Select size="lg" ref={seats} disabled={!edit}>
                         {numSeats.map((seat) => (
-                            <option>{seat}</option>
+                            <option id={seat}>{seat}</option>
                         ))}
                     </Form.Select>
                 </Col>

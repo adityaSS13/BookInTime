@@ -26,6 +26,17 @@ const MovieBooking = (props) => {
   const userFname = useRef();
   const userLname = useRef();
   const movieDate = useRef();
+  let today = new Date();
+  let tillDate = new Date();
+  tillDate.setDate(today.getDate() + 15)
+  let dd = String(today.getDate()).padStart(2, '0');
+  let mm = String(today.getMonth() + 1).padStart(2, '0');
+  let yyyy = today.getFullYear();
+  const minDate = yyyy + '-' + mm + '-' + dd;
+  let tilldd = String(tillDate.getDate()).padStart(2, '0');
+  let tillmm = String(tillDate.getMonth() + 1).padStart(2, '0');
+  let tillyyyy = tillDate.getFullYear();
+  const maxDate = tillyyyy + '-' + tillmm + '-' + tilldd
   const seats = useRef(1);
   const [movieBooked, setMovieBooked] = useState("");
   const [showTime, setShowTime] = useState("");
@@ -343,7 +354,7 @@ const MovieBooking = (props) => {
                     Select the date
                   </Form.Label>
                   <Col sm={10}>
-                    <input type="date" ref={movieDate}></input>
+                    <input type="date" ref={movieDate} min={minDate} max={maxDate}></input>
                   </Col>
                 </Form.Group>
                 <Form.Group as={Row} className="mb-3">
@@ -358,7 +369,7 @@ const MovieBooking = (props) => {
                       disabled={!edit}
                     >
                       {shows.map((option) => (
-                        <option>{option}</option>
+                        <option key={option}>{option}</option>
                       ))}
                     </Form.Select>
                   </Col>
@@ -375,7 +386,7 @@ const MovieBooking = (props) => {
                       disabled={!edit}
                     >
                       {numSeats.map((seat) => (
-                        <option>{seat}</option>
+                        <option key={seat}>{seat}</option>
                       ))}
                     </Form.Select>
                   </Col>
@@ -391,7 +402,7 @@ const MovieBooking = (props) => {
                       <tr>
                         <td></td>
                         {columnsSeats.map((column) => (
-                          <td>{column}</td>
+                          <td key={column}>{column}</td>
                         ))}
                       </tr>
                     </thead>
