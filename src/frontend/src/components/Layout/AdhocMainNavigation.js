@@ -28,7 +28,7 @@ const AdhocMainNavigation = () => {
           <ul>
             {ctxt.isLoggedIn && (
               <li>
-                <Link to="/movie">Movie</Link>
+                <Link to="/adhoc">Movie</Link>
               </li>
             )}
             {!ctxt.isLoggedIn && 
