@@ -135,8 +135,9 @@ const Login = (props) => {
   async function facebookLogin() {
     // login with facebook then authenticate with the API to get a JWT auth token
     const { authResponse } = await new Promise(window.FB.login);
-    if (!authResponse) {
+    if (authResponse) {
       console.log(authResponse);
+      authContext.login(authResponse.accessToken)
       return;
     } else {
       console.log(authResponse);
