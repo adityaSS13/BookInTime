@@ -20,7 +20,7 @@ class Table extends Component {
     render() {
         const columns = this.props.columns;
         const body = this.props.body;
-        body.splice(0, 1)
+        // body.splice(0, 1)
         console.log(body)
         
         if(body){
@@ -59,7 +59,6 @@ const CustomerServiceSearchPageContent = () => {
     const request = useContext(Request);
     let path = "/bookings/customerInfo"
     const columns = ["Booking_ID", "Email", "Theater_ID", "Theater", "Movie_ID", "Movie", "Price", "Seats"]
-    const body = [['1234', 'bmcshane', '4321', 'AMC12', '3000', 'Film Red', '12', '2']]
 
 
     const handleSearch = async () => {
