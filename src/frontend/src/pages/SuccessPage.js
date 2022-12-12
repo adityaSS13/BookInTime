@@ -34,7 +34,9 @@ const SuccessPage = (props) => {
   };
 
   useEffect(()=>{
-    authContext.login(loginToken)
+    if(loginToken){
+      authContext.login(loginToken)
+    }
     // eslint-disable-next-line
   },[])
 

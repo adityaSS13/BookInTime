@@ -25,11 +25,11 @@ class Table extends Component {
         
         if(body){
             return (
-                <table style={{width: 500}}>
+                <table className={classes.searchTable} style={{width: 500}}>
                     <thead>
                         <tr>
                             {columns.map((column) => (
-                            <th key={column}>{column}</th>
+                            <th className={classes.searchHeader} key={column}>{column}</th>
                             ))}
                         </tr>
                     </thead>
