@@ -27,14 +27,16 @@ export const AuthContextProvider = (props)=>{
   // const isLoggedIn = !!token
 
   const loginHandler = (token) => {
-    setToken(token)
-    setLoginState(true)
-    if(window.location.pathname.startsWith("/adhoc")){
-      window.localStorage.setItem(constants.AUTH_TOKEN_KEY_ADHOC,token)
-    }else if(window.location.pathname.startsWith("/admin")){
-      window.localStorage.setItem(constants.AUTH_TOKEN_KEY_ADMIN,token)
-    }else{
-      window.localStorage.setItem(constants.AUTH_TOKEN_KEY,token)
+    if(token){
+      setToken(token)
+      setLoginState(true)
+      if(window.location.pathname.startsWith("/adhoc")){
+        window.localStorage.setItem(constants.AUTH_TOKEN_KEY_ADHOC,token)
+      }else if(window.location.pathname.startsWith("/admin")){
+        window.localStorage.setItem(constants.AUTH_TOKEN_KEY_ADMIN,token)
+      }else{
+        window.localStorage.setItem(constants.AUTH_TOKEN_KEY,token)
+      }
     }
   }
 
