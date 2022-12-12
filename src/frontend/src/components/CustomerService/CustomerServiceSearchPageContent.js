@@ -58,7 +58,7 @@ const CustomerServiceSearchPageContent = () => {
     const [userData, setUserData] = useState(undefined)
     const request = useContext(Request);
     let path = "/bookings/customerInfo"
-    const columns = ["Booking_ID", "Email", "Theater_ID", "Theater", "Movie_ID", "Movie", "Price", "Seats"]
+    const columns = ["Booking_ID", "Email", "Date", "Time", "Theater_ID", "Theater", "Movie_ID", "Movie", "Price", "Seats"]
 
 
     const handleSearch = async () => {
@@ -79,8 +79,9 @@ const CustomerServiceSearchPageContent = () => {
                     .then((data) => {
                         // need some function for displaying data
                         let bookingsList = [[]]
+                        console.log(data['bookingsList'])
                         data['bookingsList'].map((temp) => {
-                            let reorganized_row = [temp['_id'], temp['email'], temp['theater_id'], temp['theater_name'], temp['movie_id'], temp['movie_name'], temp['price'].toString(), temp['seats'].toString()]
+                            let reorganized_row = [temp['_id'], temp['email'], temp['reservation_date'], temp['reservation_time'], temp['theater_id'], temp['theater_name'], temp['movie_id'], temp['movie_name'], temp['price'].toString(), temp['seats'].toString()]
                             bookingsList.push(reorganized_row)
                         })
                         setUserData(bookingsList)
