@@ -2,6 +2,7 @@ import {Component, Fragment, useContext, useState} from 'react';
 import classes from './CustomerServiceSearchPageContent.module.css';
 import { BsSearch } from 'react-icons/bs';
 import Request from '../../contexts/Request';
+import { useNavigate, Navigate } from "react-router-dom";
 
 class TableRow extends Component {
     render() {
@@ -59,6 +60,7 @@ const CustomerServiceSearchPageContent = () => {
     const request = useContext(Request);
     let path = "/bookings/customerInfo"
     const columns = ["Booking_ID", "Email", "Date", "Time", "Theater_ID", "Theater", "Movie_ID", "Movie", "Price", "Seats"]
+    const navigate = useNavigate();
 
 
     const handleSearch = async () => {
@@ -94,6 +96,12 @@ const CustomerServiceSearchPageContent = () => {
         }
     }
 
+    const redirectToChat = () => {
+        const chatpath = "/customerserviceemployee"
+        window.open(chatpath, '_blank')
+        // navigate(chatpath)
+    }
+
     const changeValue = (event) => {
         setEntry(event.target.value) // might not need current here?
     }
@@ -123,6 +131,9 @@ const CustomerServiceSearchPageContent = () => {
                 </select>
                 <button onClick={handleSearch}>
                     <BsSearch/>
+                </button>
+                <button className={classes.redirectButton} onClick={redirectToChat}>
+                    Chat Page
                 </button>
             </div>
             <div className={classes.tableContainer}>
