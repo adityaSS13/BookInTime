@@ -17,3 +17,17 @@
 .searchTable, .searchHeader, .tableData {
   border: 1px solid;
 }
+
+.redirectButton {
+  float: right;
+  margin-left: 450px;
+  padding: 6px 30px;
+  white-space: nowrap;
+  text-align: center;
+  border-radius: 4px;
+  transition-duration: .2s;
+}
+
+.redirectButton:hover {
+  background-color:#6133FF;
+}
