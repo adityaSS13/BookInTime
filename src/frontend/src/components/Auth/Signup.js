@@ -67,7 +67,7 @@ const SignUp = (props) => {
       if (response.ok) {
         response.json().then((data) => {
           setSuccess("Signin Successful");
-          context.login(data);
+          context.login(data.token);
         });
       } else {
         console.log(response);
