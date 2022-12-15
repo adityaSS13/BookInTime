@@ -15,7 +15,8 @@
     color: white;
   }
   
-  .card h3 {
+  .card h3,
+  .adhocCard h3 {
     /* text-align: center; */
     color: #2eb85c;
   }
@@ -41,4 +42,14 @@
   .pinText {
     color: blue;
     font-size: large;
+  }
+
+  .adhocCard {
+    margin: 3rem auto;
+    width: 25%;
+    max-width: 75rem;
+    border-radius: 6px;
+    background-color: #ebedef;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
   }

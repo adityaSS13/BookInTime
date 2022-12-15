@@ -1,36 +1,33 @@
-.starting {
-  margin: 3rem auto;
-  text-align: center;
-}
-
-.starting h1 {
-  font-size: 5rem;
-}
-
-.main {
-  margin: auto;
-  width: 50%;
-  padding: 40px;
-}
-
-.search {
-  width: fill;
-  height: 35px;
-}
 
 .searchContainer {
   display:flex;
   width: 70%;
-  margin:auto;
   padding: 10px;
+  margin-top:50px;
+  margin-left: 240px;
+
 }
 
 .tableContainer {
-  margin-top: 50px;
+  margin-top: 30px;
+  display: flex;
+  margin-left: 250px;
 }
 
-/*
-table, th, td {
+.searchTable, .searchHeader, .tableData {
   border: 1px solid;
 }
-*/
+
+.redirectButton {
+  float: right;
+  margin-left: 450px;
+  padding: 6px 30px;
+  white-space: nowrap;
+  text-align: center;
+  border-radius: 4px;
+  transition-duration: .2s;
+}
+
+.redirectButton:hover {
+  background-color:#6133FF;
+}

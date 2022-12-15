@@ -1,29 +1,12 @@
-
-//import Card from 'react-bootstrap/Card';
-// import CardGroup from 'react-bootstrap/CardGroup';
-//import Col from 'react-bootstrap/Col';
-//import Row from 'react-bootstrap/Row';
-// import context from 'react-bootstrap/esm/AccordionContext';
-// import AuthContext from '../../contexts/AuthContext';
-// import { useState } from 'react';
-// import CONSTANTS from '../../constants';
-
-// import React from 'react';
-// import { Button } from 'react-bootstrap';
-// import { useNavigate } from 'react-router-dom';
-// import Request from '../../contexts/Request';
-// import constants from '../../constants';
-// import AuthContext from '../../contexts/AuthContext';
-// import classes from './StartingPageContent.module.css';
 import {Component, Fragment, useContext, useState} from 'react';
 import classes from './CustomerServiceSearchPageContent.module.css';
 import { BsSearch } from 'react-icons/bs';
 import Request from '../../contexts/Request';
-
+import { useNavigate, Navigate } from "react-router-dom";
 
 class TableRow extends Component {
     render() {
-        var row = this.props.row;
+        const row = this.props.row;
         return (
             <tr>
                 {row.map((val) => (
@@ -36,74 +19,74 @@ class TableRow extends Component {
 
 class Table extends Component {
     render() {
-        var columns = this.props.columns;
-        var body = this.props.body;
-
-        return (
-            <table style={{width: 500}}>
-                <thead>
-                    <tr>
-                        {columns.map((column) => (
-                        <th>{column}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {body.map((row) => (
-                        <TableRow row={row}/>
-                    ))}
-                </tbody>
-            </table>)
+        const columns = this.props.columns;
+        const body = this.props.body;
+        // body.splice(0, 1)
+        console.log(body)
+        
+        if(body){
+            return (
+                <table className={classes.searchTable} style={{width: 500}}>
+                    <thead>
+                        <tr>
+                            {columns.map((column) => (
+                            <th className={classes.searchHeader} key={column}>{column}</th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {body.map((temp) => {
+                            //console.log(temp);
+                            return (
+                                <TableRow row={temp}/>
+                            )
+                        })}
+                    </tbody>
+                </table>)
+        } else {
+            return (
+                <Fragment/>
+            )
+        }
     }
 }
+
 
 
 const CustomerServiceSearchPageContent = () => {
     const [entry, setEntry] = useState("");
     const [searchCriteria, setCriteria] = useState("email");
-    const [userData, setUserData] = useState([[]])
+    const [userData, setUserData] = useState(undefined)
     const request = useContext(Request);
-    const path = "/bookings/customerInfo"
-    // const columns = ["Date", "Theater", "Movie", "Price", "Seats"]
-    const columns = ["User_ID", "Email", "Theater_ID", "Theater", "Movie_ID", "Movie_Name", "Price", "Seats"]
-    //const columns = ["User_ID", "Email", "fname", "lname", "Theater_ID", "Theater", "Movie_ID", "Movie_Name", "Price", "Seats", "transactionID", "Date", "Time"]
-    const body = [["12/1/2", "AMC12", "Film Red", "20", "3"]]
+    let path = "/bookings/customerInfo"
+    const columns = ["Booking_ID", "Email", "Date", "Time", "Theater_ID", "Theater", "Movie_ID", "Movie", "Price", "Seats"]
+    const navigate = useNavigate();
 
 
     const handleSearch = async () => {
         let value = entry
         let criteria = searchCriteria
-        console.log(value)
-        console.log(criteria)
-        let body = {
-            email: "",
-            userID: ""
-        }
 
         if (value !== "" && criteria !== "") {
-            if(criteria == "email"){
-                body = {
-                    email: value,
-                    userId: ""
-                }
+            if(criteria === "email"){
+                path = path + "?email=" + value;
             } else {
-                body = {
-                    email: "",
-                    userId: value
-                }
+                path = path + "?userid=" + value;
             }
 
-            console.log(body)
-
-            let getBookings = request.getRequest(path, body);
-            console.log(getBookings)
+            let getBookings = request.getRequest(path, "");
             getBookings.then(response => {
                 if(response.ok){
                     response.json()
                     .then((data) => {
-                        console.log(data)
-                        setUserData(data)
                         // need some function for displaying data
+                        let bookingsList = [[]]
+                        console.log(data['bookingsList'])
+                        data['bookingsList'].map((temp) => {
+                            let reorganized_row = [temp['_id'], temp['email'], temp['reservation_date'], temp['reservation_time'], temp['theater_id'], temp['theater_name'], temp['movie_id'], temp['movie_name'], temp['price'].toString(), temp['seats'].toString()]
+                            bookingsList.push(reorganized_row)
+                        })
+                        setUserData(bookingsList)
                     })
                     .catch(error => {
                         console.log(error)
@@ -111,6 +94,12 @@ const CustomerServiceSearchPageContent = () => {
                 }
             })
         }
+    }
+
+    const redirectToChat = () => {
+        const chatpath = "/customerserviceemployee"
+        window.open(chatpath, '_blank')
+        // navigate(chatpath)
     }
 
     const changeValue = (event) => {
@@ -143,11 +132,13 @@ const CustomerServiceSearchPageContent = () => {
                 <button onClick={handleSearch}>
                     <BsSearch/>
                 </button>
+                <button className={classes.redirectButton} onClick={redirectToChat}>
+                    Chat Page
+                </button>
             </div>
             <div className={classes.tableContainer}>
-                <Table columns={columns} body={body}/>
+                {userData ? <Table columns={columns} body={userData}/> : <></>}
             </div>
-            <div></div>
         </Fragment>
     </section>
     );

@@ -27,16 +27,33 @@ export const AuthContextProvider = (props)=>{
   // const isLoggedIn = !!token
 
   const loginHandler = (token) => {
-    setToken(token)
-    setLoginState(true)
-    window.localStorage.setItem(constants.AUTH_TOKEN_KEY,token)
+    if(token){
+      setToken(token)
+      setLoginState(true)
+      if(window.location.pathname.startsWith("/adhoc")){
+        window.localStorage.setItem(constants.AUTH_TOKEN_KEY_ADHOC,token)
+      }else if(window.location.pathname.startsWith("/admin")){
+        window.localStorage.setItem(constants.AUTH_TOKEN_KEY_ADMIN,token)
+      }else{
+        window.localStorage.setItem(constants.AUTH_TOKEN_KEY,token)
+      }
+    }
   }
 
   const logoutHandler = () => {
     setToken(null)
     setLoginState(false)
-    window.localStorage.removeItem(constants.AUTH_TOKEN_KEY)
-    navigate("/")
+    if(window.location.pathname.startsWith("/adhoc")){
+      window.localStorage.removeItem(constants.AUTH_TOKEN_KEY_ADHOC)
+      navigate("/adhoc")
+    }else if(window.location.pathname.startsWith("/admin")){
+      window.localStorage.removeItem(constants.AUTH_TOKEN_KEY_ADMIN)
+      navigate("/admin")
+    }else{
+      window.localStorage.removeItem(constants.AUTH_TOKEN_KEY)
+      navigate("/")
+    }
+    window.FB.api('/me/permissions', 'delete', null, () => window.FB.logout());
   }
 
   const updateLocation = (value) => {
